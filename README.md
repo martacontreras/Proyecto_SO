@@ -11,5 +11,7 @@ V2 Link video --> https://youtube.com/watch?v=nbn3KbpP5vU&feature=share
       · Mejoras de diseño
       · Contador
       · Mejoras en las peticiones (código)
-      · Gráficos del juego:
-              - Lucía: https://youtube.com/watch?v=MstILC2nfWo&feature=share
+      · Videos sobre los gráficos del juego:
+        
+        https://youtu.be/17cEvXhBA6A 
+	https://youtube.com/watch?v=MstILC2nfWo&feature=share
