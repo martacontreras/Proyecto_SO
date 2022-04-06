@@ -11,10 +11,10 @@ using System.Net.Sockets;
 
 namespace cliente
 {
-    public partial class Form1 : Form
+    public partial class Parchís : Form
     {
         Socket server;
-        public Form1()
+        public Parchís()
         {
             InitializeComponent();
         }
@@ -25,7 +25,7 @@ namespace cliente
         {
             //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
-            IPAddress direc = IPAddress.Parse("192.168.56.101");
+            IPAddress direc = IPAddress.Parse("192.168.56.102");
             IPEndPoint ipep = new IPEndPoint(direc, 9992);
 
             //Creamos el socket 
@@ -145,6 +145,28 @@ namespace cliente
             sh = this.Size.Height;
             this.Size = Screen.PrimaryScreen.WorkingArea.Size;
             this.Location = Screen.PrimaryScreen.WorkingArea.Location;
+            iniciar_sesion.Visible = true;
+            peticiones.Visible = false;
+            //registro.Visible = false;
+
+
+            IPAddress direc = IPAddress.Parse("192.168.56.102");
+            IPEndPoint ipep = new IPEndPoint(direc, 9992);
+
+            //Creamos el socket 
+            server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                server.Connect(ipep);//Intentamos conectar el socket
+                this.BackColor = Color.LightGreen;
+
+            }
+            catch (SocketException)
+            {
+                //Si hay excepcion imprimimos error y salimos del programa con return 
+                MessageBox.Show("No he podido conectar con el servidor");
+                return;
+            }
         }
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -152,6 +174,8 @@ namespace cliente
         private void entrar_reg_Click(object sender, EventArgs e)
         {
             registro.Visible = true;
+            iniciar_sesion.Visible = false;
+            
         }
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -210,6 +234,10 @@ namespace cliente
             { 
                 MessageBox.Show("bienvenid@ " + usuario_ini.Text);
                 this.BackColor = Color.Lavender;
+                iniciar_sesion.Visible = false;
+                registro.Visible = false;
+                peticiones.Visible = true;
+                title.Visible = false;
             }
 
         }
@@ -251,12 +279,7 @@ namespace cliente
             {
                 ListaConectadosDG.Rows.Add(words[1]);
             }
-            //if (numValue < 1)
-            //{
-            //    ListaConectadosDG.Rows.Clear();
-            //}
-
-            
+                        
         }
 
         private void button1_Click(object sender, EventArgs e)
