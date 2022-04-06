@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS Juego;
-CREATE DATABASE Juego;
-USE Juego;
+DROP DATABASE IF EXISTS M5_BBDDJuego;
+CREATE DATABASE M5_BBDDJuego;
+USE M5_BBDDJuego;
 
 CREATE TABLE Jugador(
 	id INT,
@@ -29,8 +29,8 @@ CREATE TABLE Participacion(
 	FOREIGN KEY (idP) REFERENCES Partida(id)
 )ENGINE=InnoDB;
 
-INSERT INTO Jugador VALUES (1,'Juan','Juan1',1);
-INSERT INTO Jugador VALUES (2,'Pedro','Pedro2',4);
+INSERT INTO Jugador VALUES (1,'Juan','Juan1',1,4);
+INSERT INTO Jugador VALUES (2,'Pedro','Pedro2',4,10);
 
 
 INSERT INTO Partida VALUES (1,'11.03.22','12:56',12,'CasaDePapel','Juan',2);
