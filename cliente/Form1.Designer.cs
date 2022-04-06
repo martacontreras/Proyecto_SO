@@ -307,9 +307,9 @@
             this.peticiones.Controls.Add(this.label5);
             this.peticiones.Font = new System.Drawing.Font("Courier New", 9.818182F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
             this.peticiones.ForeColor = System.Drawing.Color.Black;
-            this.peticiones.Location = new System.Drawing.Point(265, 117);
+            this.peticiones.Location = new System.Drawing.Point(175, 85);
             this.peticiones.Name = "peticiones";
-            this.peticiones.Size = new System.Drawing.Size(1283, 712);
+            this.peticiones.Size = new System.Drawing.Size(1510, 850);
             this.peticiones.TabIndex = 21;
             this.peticiones.TabStop = false;
             // 

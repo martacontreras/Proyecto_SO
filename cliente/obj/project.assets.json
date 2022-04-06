@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lucia\\Desktop\\ProyectoSO_Carla_Marta_Lucia\\cliente\\cliente\\cliente.csproj",
+      "projectUniqueName": "C:\\Users\\lucia\\Desktop\\Proyecto_SO\\cliente\\cliente.csproj",
       "projectName": "cliente",
-      "projectPath": "C:\\Users\\lucia\\Desktop\\ProyectoSO_Carla_Marta_Lucia\\cliente\\cliente\\cliente.csproj",
+      "projectPath": "C:\\Users\\lucia\\Desktop\\Proyecto_SO\\cliente\\cliente.csproj",
       "packagesPath": "C:\\Users\\lucia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lucia\\Desktop\\ProyectoSO_Carla_Marta_Lucia\\cliente\\cliente\\obj\\",
+      "outputPath": "C:\\Users\\lucia\\Desktop\\Proyecto_SO\\cliente\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lucia\\AppData\\Roaming\\NuGet\\NuGet.Config",
