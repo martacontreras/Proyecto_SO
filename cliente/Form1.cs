@@ -14,6 +14,11 @@ namespace cliente
     public partial class Parchís : Form
     {
         Socket server;
+        // Puerto Carla : 50015
+        // Puerto Marta : 50016
+        // Puerto Lucia : 50017
+        int puerto = 50017;
+        
         public Parchís()
         {
             InitializeComponent();
@@ -25,8 +30,8 @@ namespace cliente
         {
             //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
-            IPAddress direc = IPAddress.Parse("192.168.56.102");
-            IPEndPoint ipep = new IPEndPoint(direc, 9992);
+            IPAddress direc = IPAddress.Parse("147.83.117.22");
+            IPEndPoint ipep = new IPEndPoint(direc, puerto);
 
             //Creamos el socket 
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -150,8 +155,8 @@ namespace cliente
             //registro.Visible = false;
 
 
-            IPAddress direc = IPAddress.Parse("192.168.56.102");
-            IPEndPoint ipep = new IPEndPoint(direc, 9992);
+            IPAddress direc = IPAddress.Parse("147.83.117.22");
+            IPEndPoint ipep = new IPEndPoint(direc, puerto);
 
             //Creamos el socket 
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

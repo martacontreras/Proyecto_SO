@@ -179,46 +179,46 @@ int Tableros (char usuario2[20],char p2[50],char consulta2[80],int codigo2,char 
 	else
 	{
 		printf("Nombre: %s, Partidas_jugadas: %s \n", usuario2, row[0]);
-
-		int pJugadas = atoi(row[0]);
-	
-	
-			if(pJugadas==0)
-			{
-				printf("No ha jugado ninguna vez \n");
-				sprintf(respuesta2,"0/No se ha jugado ninguna partida!!");
-			}
-			if (pJugadas!=0)
-			{
-				sprintf (consulta2, "SELECT Partida.tablon FROM (Partida,Jugador,Participacion) WHERE Jugador.username = '%s' AND Jugador.id=Participacion.idJ AND Participacion.idP=Partida.id",usuario2); 
-				err=mysql_query(conn, consulta2);
-					if (err!=0)
-					{
-						printf ("Error al consultar datos de la base %u %s\n", mysql_errno(conn),mysql_error(conn));
-						exit(1);
-					}
 		
-				//Recogemos el resultado de la consulta 
-				resultado = mysql_store_result(conn);
-				row = mysql_fetch_row(resultado);
-				char tableros[100] = " ";
-					if (row == NULL)
-					{
-						printf("No se ha obtenido la consulta \n"); 
-					}
-					else
-					{
-						while (row!=NULL)
-						{
-							printf("Tablero: %s \n",row[0]);
-							sprintf(tableros,"%s , %s",tableros,row[0]);
-							row = mysql_fetch_row(resultado);
-						}
+		int pJugadas = atoi(row[0]);
+		
+		
+		if(pJugadas==0)
+		{
+			printf("No ha jugado ninguna vez \n");
+			sprintf(respuesta2,"0/No se ha jugado ninguna partida!!");
+		}
+		if (pJugadas!=0)
+		{
+			sprintf (consulta2, "SELECT Partida.tablon FROM (Partida,Jugador,Participacion) WHERE Jugador.username = '%s' AND Jugador.id=Participacion.idJ AND Participacion.idP=Partida.id",usuario2); 
+			err=mysql_query(conn, consulta2);
+			if (err!=0)
+			{
+				printf ("Error al consultar datos de la base %u %s\n", mysql_errno(conn),mysql_error(conn));
+				exit(1);
+			}
 			
-						sprintf(respuesta2,"1/%s",tableros);
-					}
+			//Recogemos el resultado de la consulta 
+			resultado = mysql_store_result(conn);
+			row = mysql_fetch_row(resultado);
+			char tableros[100] = " ";
+			if (row == NULL)
+			{
+				printf("No se ha obtenido la consulta \n"); 
+			}
+			else
+			{
+				while (row!=NULL)
+				{
+					printf("Tablero: %s \n",row[0]);
+					sprintf(tableros,"%s , %s",tableros,row[0]);
+					row = mysql_fetch_row(resultado);
+				}
+				
+				sprintf(respuesta2,"1/%s",tableros);
 			}
 		}
+	}
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -335,6 +335,7 @@ int InicioSesion(char usuario5[20],char p5[50],char consulta5[80],int codigo5,ch
 		
 		pthread_mutex_lock( &mutex );
 		PONER5 = Pon(&miLista,usuario5,sock_conn5);
+	//MostrarListaConectados(respuesta5,conectado5);
 		pthread_mutex_unlock( &mutex);
 		//miLista.conectados[miLista.num].socket = sock_conn +(1*contadorSocket);
 	}
@@ -350,7 +351,7 @@ int MostrarListaConectados (char respuesta6[512], char conectado6[300])
 	{
 		if  (miLista.conectados[i].socket == 4 && miLista.conectados[i].socket == 5)
 		{
-			printf("%s %s", conectado6,miLista.conectados[i].socket);
+			printf("%s %d", conectado6, miLista.conectados[i].socket);
 			sprintf(conectado6, "%s.%d-%s", conectado6, miLista.conectados[i].socket , miLista.conectados[i].nombre);
 		}
 		//Se mostrara la lista de conectados de la siguiente manera: "numero de personas conectadas.socket-nombre usuario.socket-nombre usuario ..."
@@ -359,6 +360,16 @@ int MostrarListaConectados (char respuesta6[512], char conectado6[300])
 	}
 	printf("%s \n",conectado6);
 	sprintf(respuesta6,"%s",conectado6);
+}
+
+int Contador(int codigo7, int contador7, char respuesta7[512])
+{
+	if ((codigo7 ==1)||(codigo7==2)|| (codigo7==3)||(codigo7==4)|| (codigo7==5)|| (codigo7==6))
+	{
+		
+		contador7 = contador7 +1;
+		sprintf (respuesta7,"%d",contador7);
+	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //Funci￳n atender cliente
@@ -391,7 +402,7 @@ void *AtenderCliente (void *socket)
 		exit(1);
 	}
 	
-	conn = mysql_real_connect(conn,"localhost","root","mysql","Juego",0,NULL,0);
+	conn = mysql_real_connect(conn,"shiva2.upc.es","root","mysql","M5_BBDDJuego",0,NULL,0);
 	if (conn == NULL)
 	{
 		printf("Error al inicializar la conexion: %u %s \n", mysql_errno(conn), mysql_error(conn));
@@ -430,218 +441,46 @@ void *AtenderCliente (void *socket)
 		}
 		//PIDEN LAS PARTIDAS GANADAS
 		if (codigo ==1)
-		{ 
-/*			strcpy(usuario,p);*/
-/*			sprintf(consulta,"SELECT Jugador.partidas_ganadas FROM Jugador WHERE Jugador.username ='%s' ",usuario);*/
-/*			err=mysql_query(conn, consulta);*/
-/*			if (err!=0){*/
-/*				printf ("Error al consultar datos de la base %u %s\n", mysql_errno(conn),mysql_error(conn));*/
-/*				exit(1);*/
-/*			}*/
-/*			resultado = mysql_store_result(conn);*/
-/*			row = mysql_fetch_row(resultado);*/
-			
-/*			if (row == NULL)*/
-/*			{*/
-/*				printf("No se ha obtenido la consulta \n"); */
-/*			}*/
-/*			else*/
-/*			{*/
-/*				printf("Codigo: %d, Nombre: %s, Partidas_ganadas: %s \n",codigo, usuario, row[0]);*/
-/*				printf("El usuario ha ganado %s partidas \n",row[0]);*/
-/*				sprintf(respuesta,"%s",row[0]);*/
-/*			}*/
+		{
 			PartidasGanadas(usuario,p,consulta,codigo,respuesta);
-			
-			
 		}
 		
 		//PIDEN LOS TABLEROS
-		if (codigo == 2){ 
-/*			strcpy (usuario, p);*/
-/*			printf ("Codigo: %d, Nombre: %s \n", codigo, usuario);*/
-/*			sprintf(consulta,"SELECT Jugador.partidas_jugadas FROM Jugador WHERE Jugador.username = '%s'",usuario);*/
-/*			err=mysql_query(conn, consulta);*/
-/*			if (err!=0){*/
-/*				printf("HOLA");*/
-/*				printf ("Error al consultar datos de la base %u %s\n", mysql_errno(conn),mysql_error(conn));*/
-/*				exit(1);*/
-/*			}*/
-/*			int pJugadas = atoi(consulta);*/
-/*			if(pJugadas==0)*/
-/*			{*/
-/*				printf("No ha jugado ninguna vez \n");*/
-/*				sprintf(respuesta,"0/No se ha jugado ninguna partida!!");*/
-/*			}*/
-/*			else{*/
-/*			sprintf (consulta, "SELECT Partida.tablon FROM (Partida,Jugador,Participacion) WHERE Jugador.username = '%s' AND Jugador.id=Participacion.idJ AND Participacion.idP=Partida.id",usuario); */
-/*			err=mysql_query(conn, consulta);*/
-/*			if (err!=0){*/
-/*				printf ("Error al consultar datos de la base %u %s\n", mysql_errno(conn),mysql_error(conn));*/
-/*				exit(1);*/
-/*			}*/
-			
-			//Recogemos el resultado de la consulta 
-/*			resultado = mysql_store_result(conn);*/
-/*			row = mysql_fetch_row(resultado);*/
-/*			char tableros[100] = " ";*/
-/*			if (row == NULL)*/
-/*			{*/
-/*				printf("No se ha obtenido la consulta \n"); */
-/*			}*/
-/*			else*/
-/*			{*/
-/*				while (row!=NULL){*/
-/*					printf("1/Tablero: %s \n",row[0]);*/
-/*					sprintf(tableros,"%s , %s",tableros,row[0]);*/
-/*					row = mysql_fetch_row(resultado);*/
-/*				}*/
-				
-/*				sprintf(respuesta,"%s",tableros);*/
-/*			}*/
-/*			}*/
+		if (codigo == 2)
+		{ 
 			Tableros(usuario,p,consulta,codigo,respuesta);
 		}
 		//PIDEN EL ID DEL USUARIO
-		if (codigo ==3){ 
-/*			strcpy (usuario, p);*/
-/*			printf ("Codigo: %d, Nombre: %s \n", codigo, usuario);*/
-			
-/*			sprintf(consulta, "SELECT Jugador.id FROM Jugador WHERE Jugador.username='%s' ",usuario);*/
-/*			err=mysql_query(conn, consulta);*/
-/*			if (err!=0){*/
-/*				printf ("Error al consultar datos de la base %u %s\n", mysql_errno(conn),mysql_error(conn));*/
-/*				exit(1);*/
-/*			}	*/
-			//Recogemos el resultado de la consulta 
-/*			resultado = mysql_store_result(conn);*/
-/*			row = mysql_fetch_row(resultado);*/
-/*			if (row == NULL)*/
-/*			{*/
-/*				printf("No se ha obtenido la consulta \n"); */
-/*			}*/
-/*			else*/
-/*			{*/
-				
-/*				printf("El id del usuario es:%s \n",row[0]);*/
-/*				sprintf(respuesta,"%s",row[0]);*/
-/*			}*/
+		if (codigo ==3)
+		{ 
 			IDUsuario(usuario,p,consulta,codigo,respuesta);
 		}
 		//INSERTA USUARIO Y CONTRASE￑A EN LA BASE DE DATOS (REGISTRO)
-		if (codigo == 4){
-/*			strcpy (usuario, p);*/
-/*			p = strtok( NULL, "/");*/
-/*			strcpy(contrasena,p);*/
-/*			printf ("Codigo: %d, Nombre: %s, Contrase￱a: %s\n", codigo, usuario, contrasena);*/
-			
-			//Creamos la consulta
-/*			sprintf(consulta, "SELECT Jugador.username FROM Jugador WHERE Jugador.username='%s' ",usuario); */
-			// hacemos la consulta 
-/*			err=mysql_query (conn, consulta); */
-/*			if (err!=0) {*/
-/*				printf ("Error al consultar datos de la base %u %s\n",*/
-/*						mysql_errno(conn), mysql_error(conn));*/
-/*				exit (1);*/
-/*			}*/
-			//Recogemos el resultado
-/*			resultado = mysql_store_result (conn);*/
-/*			row=mysql_fetch_row(resultado); */
-/*			if (row==NULL){ */
-				//Consultamos el numero de usuarios registrados para obtener el ultimo id
-/*				strcpy(consulta_id,"SELECT MAX(Jugador.id) FROM (Jugador)");*/
-/*				err=mysql_query (conn, consulta_id);*/
-/*				if (err!=0) {*/
-/*					printf ("Error al consultar datos de la base %u %s\n",*/
-/*							mysql_errno(conn), mysql_error(conn));*/
-/*					exit (1);*/
-/*				}*/
-				//Recogemos el resultado de la consulta de id
-/*				resultado = mysql_store_result (conn); */
-/*				row = mysql_fetch_row (resultado);*/
-				
-/*				int idJugador=atoi(row[0])+1;*/
-/*				char insert[150];*/
-/*				sprintf(insert,"INSERT INTO Jugador(id,username,pass,partidas_ganadas,partidas_jugadas) VALUES (%d,'%s','%s',0,0)",idJugador,usuario,contrasena);*/
-				
-/*				err=mysql_query (conn, insert);*/
-/*				if (err!=0) {*/
-/*					printf ("Error al insertar datos de la base %u %s\n",*/
-/*							mysql_errno(conn), mysql_error(conn));*/
-/*					exit (1);*/
-/*					sprintf(respuesta,"NO INSERTADO");					*/
-/*				}*/
-/*				else*/
-/*					sprintf(respuesta,"SI");*/
-/*			}*/
-/*			else{*/
-/*				sprintf(respuesta,"NO REGISTRADO");*/
-/*			}			*/
+		if (codigo == 4)
+		{
 			Registro(usuario,p,consulta,codigo,respuesta,contrasena,consulta_id);
 		}
 		
 		//COMPRUEBA EL NOMBRE DE USUARIO Y CONTRASE￑A EN LA BASE DE DATOS (INICIO SESION)
-		if (codigo == 5){
-/*			strcpy (usuario, p);*/
-/*			p = strtok( NULL, "/");*/
-/*			strcpy(contrasena,p);*/
-/*			printf ("Codigo: %d, Nombre: %s, Contrase￱a: %s\n", codigo, usuario, contrasena);*/
-			
-/*			sprintf(consulta, "SELECT Jugador.username, Jugador.pass FROM Jugador WHERE (Jugador.username='%s' AND Jugador.pass='%s')",usuario,contrasena);*/
-/*			err=mysql_query(conn, consulta);*/
-			
-			
-/*			if (err!=0){*/
-/*				printf ("Error al consultar datos de la base %u %s\n", mysql_errno(conn),mysql_error(conn));*/
-/*				exit(1);*/
-/*			}*/
-			//Recogemos el resultado de la consulta 
-/*			resultado = mysql_store_result(conn);*/
-/*			row = mysql_fetch_row(resultado);*/
-/*			if (row == NULL)*/
-/*			{*/
-/*				printf("No se ha obtenido la consulta \n"); */
-/*				sprintf(respuesta,"INCORRECTO");*/
-/*			}*/
-/*			else*/
-/*			{*/
-				
-/*				printf("Inicio de sesion completado \n");*/
-/*				sprintf(respuesta,"CORRECTO1");*/
-/*				printf("%s \n",conectado);*/
-				
-/*				pthread_mutex_lock( &mutex );*/
-/*				PONER = Pon(&miLista,usuario,sock_conn);*/
-/*				pthread_mutex_unlock( &mutex);*/
-				//miLista.conectados[miLista.num].socket = sock_conn +(1*contadorSocket);
-/*			}*/
+		if (codigo == 5)
+		{
 			InicioSesion(usuario,p,consulta,codigo,respuesta,contrasena,conectado,PONER,sock_conn);
 		}
 		//PONER LISTA CONECTADOS
 		if (codigo == 6)
 		{
-/*			sprintf(conectado, "%d", miLista.num);*/
-/*			int i;*/
-/*			for(i=0; i<miLista.num; i++)*/
-/*			{*/
-/*				if  (miLista.conectados[i].socket == 4 && miLista.conectados[i].socket == 5)*/
-/*				{*/
-/*					printf("%s %s", conectado,miLista.conectados[i].socket);*/
-/*					sprintf(conectado, "%s.%d-%s", conectado, miLista.conectados[i].socket , miLista.conectados[i].nombre);*/
-/*				}*/
-				//Se mostrara la lista de conectados de la siguiente manera: "numero de personas conectadas.socket-nombre usuario.socket-nombre usuario ..."
-/*				sprintf(conectado, "%s.%d-%s", conectado, miLista.conectados[i].socket , miLista.conectados[i].nombre);*/
-				
-/*			}*/
-/*			printf("%s \n",conectado);*/
-/*			sprintf(respuesta,"%s",conectado);*/
 			MostrarListaConectados(respuesta,conectado);
 		}
 		
-		if (codigo ==7)
+		
+		//ELIMINAR DE LA LISTA DE CONECTADOS
+		if (codigo==8)
 		{
-			sprintf (respuesta,"%d",contador);
+			pthread_mutex_lock( &mutex );
+			Eliminar(&miLista,usuario);
+			pthread_mutex_unlock( &mutex);
 		}
+		
 		if (codigo != 0)
 		{
 			printf("Respuesta: %s \n", respuesta);
@@ -649,19 +488,23 @@ void *AtenderCliente (void *socket)
 			write (sock_conn,respuesta, strlen(respuesta));
 			
 		}
-		if (codigo==8)
-		{
-			pthread_mutex_lock( &mutex );
-			//strcpy (usuario, p);
-			Eliminar(&miLista,usuario);
-			pthread_mutex_unlock( &mutex);
-		}
-		if ((codigo ==1)||(codigo==2)|| (codigo==3)||(codigo==4)|| (codigo==5)|| (codigo==6))
+		
+		//CONTADOR DE FUNCIONES
+		if (codigo ==7)
 		{
 			pthread_mutex_lock( &mutex ); //No me interrumpas ahora
-			contador = contador +1;
+			Contador(codigo,contador,respuesta);
 			pthread_mutex_unlock( &mutex); //ya puedes interrumpirme
+			
+			/*sprintf (respuesta,"%d",contador);*/
 		}
+		
+/*		if ((codigo ==1)||(codigo==2)|| (codigo==3)||(codigo==4)|| (codigo==5)|| (codigo==6))*/
+/*		{*/
+/*			pthread_mutex_lock( &mutex ); *///No me interrumpas ahora
+/*			contador = contador +1;*/
+/*			pthread_mutex_unlock( &mutex); *///ya puedes interrumpirme
+/*		}*/
 		
 	}
 	// Se acabo el servicio para este cliente
@@ -674,7 +517,10 @@ int main(int argc, char *argv[])
 	
 	int sock_conn, sock_listen;
 	struct sockaddr_in serv_adr;	
-	
+	// Puerto Carla : 50015
+	// Puerto Marta : 50016
+	// Puerto Lucia : 50017
+	int puerto = 50017;
 	
 	// INICIALIZACION
 	// Abrimos el socket.
@@ -688,7 +534,7 @@ int main(int argc, char *argv[])
 	//htonl formatea el numero que recibe al formato necesario.
 	serv_adr.sin_addr.s_addr = htonl(INADDR_ANY);
 	// escucharemos en el port (X).
-	serv_adr.sin_port = htons(9992);
+	serv_adr.sin_port = htons(puerto);
 	if (bind(sock_listen, (struct sockaddr *) &serv_adr, sizeof(serv_adr)) < 0)
 		printf ("Error al bind");
 	//La cola de peticiones pendientes no podra ser superior a 4

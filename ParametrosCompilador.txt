@@ -1,0 +1,7 @@
+~Ejecución del servidor en shiva.upc.es~
+	- Entrar a tu usuario de shiva : x.x@shiva.upc.es
+	- Ejecutar el programa con el comando:
+		gcc -o M5_servidor M5_ServidorJuego.c -lpthread `mysql_config --cflags --libs`
+	- Poner en ejecución el output con el comando:
+		./M5_servidor
+	- Ejecutar cliente.
