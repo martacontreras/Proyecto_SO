@@ -47,18 +47,15 @@
             this.label5 = new System.Windows.Forms.Label();
             this.conectar = new System.Windows.Forms.Button();
             this.desconectar = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
             this.iniciar_sesion = new System.Windows.Forms.GroupBox();
             this.peticiones = new System.Windows.Forms.GroupBox();
             this.ConectadosLabel = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.ListaConectadosButton = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.ListaConectadosDG = new System.Windows.Forms.DataGridView();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.SalirButton = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
             this.contLbl = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.servicios = new System.Windows.Forms.Label();
@@ -144,7 +141,6 @@
             this.usuario_ini.Name = "usuario_ini";
             this.usuario_ini.Size = new System.Drawing.Size(207, 24);
             this.usuario_ini.TabIndex = 4;
-            this.usuario_ini.TextChanged += new System.EventHandler(this.usuario_ini_TextChanged);
             // 
             // contraseña_ini
             // 
@@ -255,15 +251,6 @@
             this.desconectar.UseVisualStyleBackColor = true;
             this.desconectar.Click += new System.EventHandler(this.desconectar_Click);
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1207, 31);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(341, 19);
-            this.label6.TabIndex = 19;
-            this.label6.Text = "Conectate y desconectate del servidor cuando quieras:";
-            // 
             // iniciar_sesion
             // 
             this.iniciar_sesion.BackColor = System.Drawing.Color.LightCyan;
@@ -287,13 +274,11 @@
             this.peticiones.BackColor = System.Drawing.Color.LightCyan;
             this.peticiones.Controls.Add(this.ConectadosLabel);
             this.peticiones.Controls.Add(this.label11);
-            this.peticiones.Controls.Add(this.ListaConectadosButton);
             this.peticiones.Controls.Add(this.pictureBox4);
             this.peticiones.Controls.Add(this.ListaConectadosDG);
             this.peticiones.Controls.Add(this.pictureBox3);
             this.peticiones.Controls.Add(this.pictureBox2);
             this.peticiones.Controls.Add(this.SalirButton);
-            this.peticiones.Controls.Add(this.label10);
             this.peticiones.Controls.Add(this.partidas_ganadas);
             this.peticiones.Controls.Add(this.enviar);
             this.peticiones.Controls.Add(this.contLbl);
@@ -320,9 +305,9 @@
             this.ConectadosLabel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ConectadosLabel.Location = new System.Drawing.Point(19, 28);
             this.ConectadosLabel.Name = "ConectadosLabel";
-            this.ConectadosLabel.Size = new System.Drawing.Size(440, 18);
+            this.ConectadosLabel.Size = new System.Drawing.Size(179, 18);
             this.ConectadosLabel.TabIndex = 22;
-            this.ConectadosLabel.Text = "Quieres ver quien está conectado? Pulsa aquí -->";
+            this.ConectadosLabel.Text = "PERSONAS CONECTADAS";
             // 
             // label11
             // 
@@ -335,17 +320,6 @@
             this.label11.Size = new System.Drawing.Size(385, 30);
             this.label11.TabIndex = 34;
             this.label11.Text = "Con tres nuevas temáticas disponibles!";
-            // 
-            // ListaConectadosButton
-            // 
-            this.ListaConectadosButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ListaConectadosButton.Location = new System.Drawing.Point(465, 23);
-            this.ListaConectadosButton.Name = "ListaConectadosButton";
-            this.ListaConectadosButton.Size = new System.Drawing.Size(170, 26);
-            this.ListaConectadosButton.TabIndex = 23;
-            this.ListaConectadosButton.Text = "Lista de conectados";
-            this.ListaConectadosButton.UseVisualStyleBackColor = true;
-            this.ListaConectadosButton.Click += new System.EventHandler(this.ListaConectadosButton_Click);
             // 
             // pictureBox4
             // 
@@ -369,7 +343,7 @@
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 9.818182F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Desktop;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.ListaConectadosDG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.ListaConectadosDG.ColumnHeadersHeight = 26;
@@ -384,7 +358,7 @@
             this.ListaConectadosDG.DefaultCellStyle = dataGridViewCellStyle2;
             this.ListaConectadosDG.EnableHeadersVisualStyles = false;
             this.ListaConectadosDG.GridColor = System.Drawing.SystemColors.ButtonFace;
-            this.ListaConectadosDG.Location = new System.Drawing.Point(390, 66);
+            this.ListaConectadosDG.Location = new System.Drawing.Point(19, 68);
             this.ListaConectadosDG.Name = "ListaConectadosDG";
             this.ListaConectadosDG.RowHeadersWidth = 47;
             this.ListaConectadosDG.RowTemplate.Height = 28;
@@ -417,25 +391,13 @@
             // SalirButton
             // 
             this.SalirButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.SalirButton.Location = new System.Drawing.Point(31, 468);
+            this.SalirButton.Location = new System.Drawing.Point(39, 334);
             this.SalirButton.Name = "SalirButton";
             this.SalirButton.Size = new System.Drawing.Size(86, 26);
             this.SalirButton.TabIndex = 28;
             this.SalirButton.Text = "Salir:(";
             this.SalirButton.UseVisualStyleBackColor = true;
             this.SalirButton.Click += new System.EventHandler(this.SalirButton_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label10.Location = new System.Drawing.Point(132, 471);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(881, 18);
-            this.label10.TabIndex = 29;
-            this.label10.Text = "Si pulsas en el botón de salir, se desconectará el usuario que tiene sesión inici" +
-    "ada en el Forms.";
             // 
             // contLbl
             // 
@@ -555,7 +517,6 @@
             this.Controls.Add(this.title);
             this.Controls.Add(this.registro);
             this.Controls.Add(this.iniciar_sesion);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.desconectar);
             this.Controls.Add(this.conectar);
             this.Name = "Parchís";
@@ -573,7 +534,6 @@
             this.registro.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.title)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -594,7 +554,6 @@
         private Label label5;
         private Button conectar;
         private Button desconectar;
-        private Label label6;
         private GroupBox iniciar_sesion;
         private GroupBox registro;
         private TextBox usuario_reg;
@@ -609,7 +568,6 @@
         private Label contLbl;
         private DataGridView ListaConectadosDG;
         private Button SalirButton;
-        private Label label10;
         private PictureBox title;
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
