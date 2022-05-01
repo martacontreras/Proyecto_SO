@@ -16,11 +16,16 @@ namespace cliente
     {
         Socket server;
         Thread Atender;
+
+        delegate void DelegadorParaEscribir(string mensaje);
+        delegate void DelegadoGB(GroupBox mensaje);
+        delegate void DelegadaDGV(DataGridView mensaje);
+
         // Puerto Carla : 50015
         // Puerto Marta : 50016
         // Puerto Lucia : 50017
         //int puerto = 50017;
-        int puerto = 50016;
+        int puerto = 50015;
         public Parchís()
         {
             InitializeComponent();
@@ -59,6 +64,7 @@ namespace cliente
             //registro.Visible = false;
 
 
+            //IPAddress direc = IPAddress.Parse("192.168.56.101");
             IPAddress direc = IPAddress.Parse("147.83.117.22");
             IPEndPoint ipep = new IPEndPoint(direc, puerto);
 
@@ -68,6 +74,7 @@ namespace cliente
             {
                 server.Connect(ipep);//Intentamos conectar el socket
                 this.BackColor = Color.LightGreen;
+                MessageBox.Show("Se ha conectado con el servidor");
 
             }
             catch (SocketException)
@@ -92,109 +99,108 @@ namespace cliente
                 //Recibimos mensaje del servidor
                 byte[] msg2 = new byte[200];
                 server.Receive(msg2);
-                string a = Encoding.ASCII.GetString(msg2);
+                //string a = Encoding.ASCII.GetString(msg2);
 
-                string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
+                // Limpiamos el mensaje
+                string mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+                string[] trozos = mensaje.Split('/');
                 int codigo = Convert.ToInt32(trozos[0]);
-                string mensaje = mensaje = trozos[1].Split('\0')[0];
+
+                //string[] trozos = Encoding.ASCII.GetString(msg2).Split('/');
+                //int codigo = Convert.ToInt32(trozos[0]);
+                //string mensaje = trozos[1].Split('\0')[0];
+
                 switch (codigo)
                 {
                     case 1:     //PARTIDAS GANADAS
-                        MessageBox.Show(usuario_consulta.Text + " ha ganado " + mensaje + " partidas");
+                        int partidasganadas = Convert.ToInt32(trozos[1]);
+                        MessageBox.Show(usuario_consulta.Text + " ha ganado " + partidasganadas + " partidas");
                         break;
                     case 2:     //TABLONES JUGADOS
-                        string[] words = trozos[1].Split('-');
-                        a = words[1];
-                        Int32.TryParse(words[0], out int numValue);
+                        string[] words1 = trozos[1].Split('-');
+                        //a = words[1];
+                        Int32.TryParse(words1[0], out int numValue);
                         if (numValue == 0)
                         {
-                            MessageBox.Show(words[1]);
+                            MessageBox.Show(words1[1]);
                         }
                         else
                         {
-                            MessageBox.Show(usuario_consulta.Text + " ha jugado los tablones: " + words[1]);
+                            MessageBox.Show(usuario_consulta.Text + " ha jugado los tablones: " + words1[1]);
                         }
                         break;
                     case 3:     //ID JUGADOR
-                        MessageBox.Show("La ID de " + usuario_consulta.Text + " es: " + mensaje);
+                        int idjugador = Convert.ToInt32(trozos[1]);
+                        MessageBox.Show("La ID de " + usuario_consulta.Text + " es: " + idjugador);
                         break;
                     case 4:     //REGISTRO
-                        if (mensaje == "SI")
+                        if (trozos[1] == "SI")
                             MessageBox.Show("¡Enhorabuena, ya estas registrado!");
                         else
                             MessageBox.Show("Lo sentimos el nombre de usuario ya se esta utilizando:( \n ¡Porfavor selecciona otro!");
-
 
                         registro.Visible = false;
                         iniciar_sesion.Visible = true;
                         break;
                     case 5:     //INICIO SESION
-                        string[] words5 = trozos[1].Split('.');
-                        if (words5[0] == "INCORRECTO")
                         {
-                            MessageBox.Show("Nombre de usuario o contraseña incorrecta.");
-                            this.BackColor = Color.LightCoral;
-                        }
-                        else
-                        {
-                            //MessageBox.Show("bienvenid@ " + usuario_ini.Text);
-                            this.BackColor = Color.Lavender;
-                            iniciar_sesion.Visible = false;
-                            registro.Visible = false;
-                            peticiones.Visible = true;
-                            title.Visible = false;
+                            if (trozos[1] == "INCORRECTO")
+                            {
+                                MessageBox.Show("Nombre de usuario o contraseña incorrecta.");
+                                this.BackColor = Color.LightCoral;
+                            }
+                            else
+                            {
+                                MessageBox.Show("bienvenid@ " + usuario_ini.Text);
+                                this.BackColor = Color.Lavender;
+                                iniciar_sesion.Visible = false;
+                                registro.Visible = false;
+                                peticiones.Visible = true;
+                                title.Visible = false;
+                            }
                         }
 
-                        ListaConectadosDG.Rows.Clear();
-                        //Del servidor obtenemos un resultado: "jugadoresConectados.socket/listaConectados". Separaremos el resultado segun "." y insertaremos el resultado en words[]
-                        string[] words6 = words5[1].Split('*');
-                        Int32.TryParse(words6[0], out int numValue6);
-                        int existeConectado = 0;
-                        ListaConectadosDG.ColumnCount = 1;
-                        //this.ListaConectadosDG.Rows.Add();
-                        int cont = 1;
-                        while (numValue6 > 1 && existeConectado < numValue6)
-                        {
-                            //string[] S = words[1].Split('/');
-                            //this.ListaConectadosDG.Rows.Add();
-                            ListaConectadosDG.Rows.Add(words6[cont]);
+
+                        ////Del servidor obtenemos un resultado: "jugadoresConectados.socket/listaConectados". Separaremos el resultado segun "." y insertaremos el resultado en words[]
+                        //string[] words6 = words5[1].Split('*');
+                        //Int32.TryParse(words6[0], out int numValue6);
+                        //int existeConectado = 0;
+                        //ListaConectadosDG.ColumnCount = 1;
+                        ////this.ListaConectadosDG.Rows.Add();
+                        //int cont = 1;
+                        //while (numValue6 > 1 && existeConectado < numValue6)
+                        //{
+                        //    //string[] S = words[1].Split('/');
+                        //    //this.ListaConectadosDG.Rows.Add();
+                        //    ListaConectadosDG.Rows.Add(words6[cont]);
 
 
-                            existeConectado++;
-                            cont++;
-                        }
-                        if (numValue6 == 1)
-                        {
-                            ListaConectadosDG.Rows.Add(words6[1]);
-                        }
+                        //    existeConectado++;
+                        //    cont++;
+                        //}
+                        //if (numValue6 == 1)
+                        //{
+                        //    ListaConectadosDG.Rows.Add(words6[1]);
+                        //}
 
                         break;
-                    //case 6:     //LISTA CONECTADOS
-                    //    ListaConectadosDG.Rows.Clear();
-                    //    //Del servidor obtenemos un resultado: "jugadoresConectados.socket/listaConectados". Separaremos el resultado segun "." y insertaremos el resultado en words[]
-                    //    string[] words6 = trozos[1].Split('.');
-                    //    Int32.TryParse(words6[0], out int numValue6);
-                    //    int existeConectado = 0;
-                    //    ListaConectadosDG.ColumnCount = 1;
-                    //    //this.ListaConectadosDG.Rows.Add();
-                    //    int cont = 1;
-                    //    while (numValue6 > 1 && existeConectado < numValue6)
-                    //    {
-                    //        //string[] S = words[1].Split('/');
-                    //        //this.ListaConectadosDG.Rows.Add();
-                    //        ListaConectadosDG.Rows.Add(words6[cont]);
+
+                    case 6:     //LISTA CONECTADOS
+
+                        ListaConectadosDG.Rows.Clear();
+                        int num = Convert.ToInt32(trozos[1]);
+                        int i;
+                        for (i = 0; i < num; i++)
+                        {
+                            int n = ListaConectadosDG.Rows.Add();
+                            ListaConectadosDG.Rows[n].Cells[0].Value = trozos[i + 2];
+
+                        }
 
 
-                    //        existeConectado++;
-                    //        cont++;
-                    //    }
-                    //    if (numValue6 == 1)
-                    //    {
-                    //        ListaConectadosDG.Rows.Add(words6[1]);
-                    //    }
-                    //    break;
+                        break;
                     case 7:     //SERVICIOS
-                        contLbl.Text = mensaje;
+                        contLbl.Text = trozos[1];
                         break;
                     case 8:     //DESCONEXION
                         MessageBox.Show(trozos[1]);
@@ -213,7 +219,7 @@ namespace cliente
         {
             //Creamos un IPEndPoint con el ip del servidor y puerto del servidor 
             //al que deseamos conectarnos
-            IPAddress direc = IPAddress.Parse("147.83.117.22");
+            IPAddress direc = IPAddress.Parse("192.168.56.101");
             IPEndPoint ipep = new IPEndPoint(direc, puerto);
 
             //Creamos el socket 
@@ -374,24 +380,24 @@ namespace cliente
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
-            //Recibimos la respuesta del servidor
-            byte[] msg2 = new byte[80];
-            server.Receive(msg2);
-            mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-            if (mensaje == "INCORRECTO")
-            {
-                MessageBox.Show("Nombre de usuario o contraseña incorrecta.");
-                this.BackColor = Color.LightCoral;
-            }
-            else
-            {
-                MessageBox.Show("bienvenid@ " + usuario_ini.Text);
-                this.BackColor = Color.Lavender;
-                iniciar_sesion.Visible = false;
-                registro.Visible = false;
-                peticiones.Visible = true;
-                title.Visible = false;
-            }
+            ////Recibimos la respuesta del servidor
+            //byte[] msg2 = new byte[80];
+            //server.Receive(msg2);
+            //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            //if (mensaje == "INCORRECTO")
+            //{
+            //    MessageBox.Show("Nombre de usuario o contraseña incorrecta.");
+            //    this.BackColor = Color.LightCoral;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("bienvenid@ " + usuario_ini.Text);
+            //    this.BackColor = Color.Lavender;
+            //    iniciar_sesion.Visible = false;
+            //    registro.Visible = false;
+            //    peticiones.Visible = true;
+            //    title.Visible = false;
+            //}
 
         }
         //-----------------------------------------------------------------------------------------------------------------------------------
@@ -407,9 +413,9 @@ namespace cliente
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
 
-            //Recibimos la respuesta del servidor
-            byte[] msg2 = new byte[80];
-            server.Receive(msg2);
+            ////Recibimos la respuesta del servidor
+            //byte[] msg2 = new byte[80];
+            //server.Receive(msg2);
             //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
             ////MessageBox.Show(mensaje);
             //ListaConectadosDG.Rows.Clear();
@@ -437,43 +443,42 @@ namespace cliente
 
         }
 
-            //-----------------------------------------------------------------------------------------------------------------------------------
-            //BOTON SERVICIOS (7)
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //BOTON SERVICIOS (7)
 
-            private void button1_Click(object sender, EventArgs e)
-            {
-                //Pedir numero de servicios realizados
-                string mensaje = "7/";
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Pedir numero de servicios realizados
+            string mensaje = "7/";
 
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
 
-                //Recibimos la respuesta del servidor
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-                //contLbl.Text = mensaje;
-            }
-
-            //-----------------------------------------------------------------------------------------------------------------------------------
-            //BOTON SALIR DE LISTA CONECTADOS (8)
-            private void SalirButton_Click(object sender, EventArgs e)
-            {
-                // Enviamos al servidor el nombre del usuario
-                string mensaje = "8/" + usuario_ini.Text;
-                // Enviamos al servidor el nombre tecleado
-                byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
-                server.Send(msg);
-
-                //Recibimos la respuesta del servidor
-                byte[] msg2 = new byte[80];
-                server.Receive(msg2);
-                //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
-                //MessageBox.Show("Se ha desconectado");
-            }
-
-
+            ////Recibimos la respuesta del servidor
+            //byte[] msg2 = new byte[80];
+            //server.Receive(msg2);
+            //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            //contLbl.Text = mensaje;
         }
-    }
 
+        //-----------------------------------------------------------------------------------------------------------------------------------
+        //BOTON SALIR DE LISTA CONECTADOS (8)
+        private void SalirButton_Click(object sender, EventArgs e)
+        {
+            // Enviamos al servidor el nombre del usuario
+            string mensaje = "8/" + usuario_ini.Text;
+            // Enviamos al servidor el nombre tecleado
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
+            server.Send(msg);
+
+            //Recibimos la respuesta del servidor
+            byte[] msg2 = new byte[80];
+            server.Receive(msg2);
+            //mensaje = Encoding.ASCII.GetString(msg2).Split('\0')[0];
+            //MessageBox.Show("Se ha desconectado");
+        }
+
+
+    }
+}
 

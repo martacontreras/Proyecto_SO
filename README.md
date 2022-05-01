@@ -4,6 +4,8 @@ V1 Link video --> https://youtu.be/fq0oIuvfYZo
 
 V2 Link video --> https://youtube.com/watch?v=nbn3KbpP5vU&feature=share
 
+V3 Link video --> https://youtu.be/-dK4KaXlmhY
+
 
 *Versión 2*
   La versión 2 implementa:
@@ -20,3 +22,6 @@ V2 Link video --> https://youtube.com/watch?v=nbn3KbpP5vU&feature=share
   La versión 3 implementa:
 	· Conexión a shiva y shiva 2.
 	· Mejora de diseño.
+- Generada por Marta
+- Verificada por Lucía
+- Comunicada por Carla 
