@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using System.Net.Sockets;
 
 
 namespace cliente
@@ -16,8 +17,10 @@ namespace cliente
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            
-            Application.EnableVisualStyles();
+
+        
+
+        Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Parchís());
         }
