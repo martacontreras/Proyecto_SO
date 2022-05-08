@@ -1,4 +1,4 @@
-"# Proyecto_SO" 
+# Proyecto_SO
 
 V1 Link video --> https://youtu.be/fq0oIuvfYZo
 
