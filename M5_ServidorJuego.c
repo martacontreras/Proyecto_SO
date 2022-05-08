@@ -63,7 +63,9 @@ int Pon (ListaConectados *lista, char nombre[20], int socket)
 	{
 		strcpy(lista->conectados[lista->num].nombre, nombre);
 		lista->conectados[lista->num].socket = socket;
+		
 		lista->num++;
+		
 		return 0;
 	}
 	
@@ -157,7 +159,9 @@ void DameConectados (ListaConectados *lista, char conectados[300])
 	for(i=0; i<lista->num; i++)
 	{
 		sprintf(conectados, "%s/%s", conectados, lista->conectados[i].nombre);
+	
 	}
+	printf("%s",conectados);
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -288,7 +292,7 @@ int Registro (char usuario4[20],char p4[50],char consulta4[80],int codigo4,char 
 	strcpy (usuario4, p4);
 	p4 = strtok( NULL, "/");
 	strcpy(contrasena4,p4);
-	printf ("Codigo: %d, Nombre: %s, Contraseña: %s\n", codigo4, usuario4, contrasena4);
+	printf ("Codigo: %d, Nombre: %s, Contraseￃﾱa: %s\n", codigo4, usuario4, contrasena4);
 	
 	//Creamos la consulta
 	sprintf(consulta4, "SELECT Jugador.username FROM Jugador WHERE Jugador.username='%s' ",usuario4);
@@ -366,7 +370,6 @@ int InicioSesion(char usuario5[20],char p5[50],char consulta5[80],int codigo5,ch
 		printf("%s \n",conectado5);
 		pthread_mutex_lock( &mutex );
 		PONER5 = Pon(&miLista,usuario5,sock_conn5);
-		
 		pthread_mutex_unlock( &mutex);
 /*		for(int i=0;i<miLista.num;i++)*/
 /*		{*/
@@ -396,14 +399,36 @@ int MostrarListaConectados (char respuesta6[512], char conectado6[300])
 	sprintf(respuesta6,"%s",conectado6);
 }
 
-//Con la funci\F3n CodigoInvitacion lo quevamos a hacer va a ser obtener el codigo que va a salir del servido y va a ser entregado al 
+//Con la funci￳n CodigoInvitacion lo quevamos a hacer va a ser obtener el codigo que va a salir del servido y va a ser entregado al 
 //cliente que ha seleccionado la persona TX
-/*int CodigoInvitacion (ListaConectados *lista,char usuario9[20],int socketTx9,int socketRx9,char respuesta9[512])*/
-/*{*/
+int Invitacion (ListaConectados *lista,char p9[50],char respuesta9[512],char nameOrigen[20], char nameDestino[20], int sock_conn9)
+{
+	int socketOrigen;
+	int socketDestino;
+/*	char nameOrigen[20];*/
+/*	char nameDestino[20];*/
+	//Encontramos el socket de origen y de destino (Invitacion)
+	//p = strtok (NULL,"/");
+	strcpy(nameOrigen,p9);
+	socketOrigen = DevuelveSocket(lista,p9);
+	p9 = strtok (NULL,"/");
+	strcpy(nameDestino,p9);
+	socketDestino = DevuelveSocket(lista,p9);
+	
+	printf("%d %d\n",socketDestino, socketOrigen);
+	//Devolveremos el codigo, la respuesta y el nombre del destino de la invitacion
+	sprintf(respuesta9,"9/Quieres jugar con %s?/%s",nameOrigen,nameDestino);
+	
+	//write(socketDestino,respuesta9,strlen(respuesta9));
+	sock_conn9 = socketDestino;
+	//"p" sera el mensaje (nombre usuario a quien queremos enviar la invitacion)
+	//CodigoInvitacion(&miLista,p,numForm,socketInvitado,respuesta);
+	
 /*	int comparacion=1;*/
 /*	int encontrado = 0;*/
 /*	while (comparacion =! 0 && !encontrado)*/
 /*	{*/
+		//Encuentras al usuario en la tabla del servidor (conectados)
 /*		comparacion = strcmp(usuario9, lista->conectados[i].nombre);*/
 /*		if (comparacion == 0)*/
 /*		{*/
@@ -411,22 +436,48 @@ int MostrarListaConectados (char respuesta6[512], char conectado6[300])
 /*		}*/
 /*		i = i + 1;*/
 /*	}*/
-	//Lo que 
+	
+	
 /*	if (encontrado=1)*/
 /*	{*/
-/*		lista->conectados[i].socket = socketRx9; */
+/*		socket9 = lista->conectados[i].socket;*/
+		 
 /*	}*/
 	
 /*	printf("9/%d/%d",socketTx9,socketRx9);*/
 /*	sprintf(respuesta9,"9/%d/%d",socketTx9,socketRx9);*/
-/*}*/
+}
+
+
+int ConfirmacionInvitacion(ListaConectados *lista, char p10[50], char respuesta10 [512], char nameDestino[20], int sock_conn10)
+{
+	int socketOrigen;
+	int socketDestino;
+	//Encontramos el socket de origen y de destino (Invitacion)
+	p10 = strtok (NULL,"/");
+	strcpy(nameDestino,p10);
+	socketDestino = DevuelveSocket(lista,p10);
+	printf("%d %d\n",socketDestino, socketOrigen);
+	p10=strtok(NULL,"/");
+	if (strcmp(p10,"Yes") == 0)
+	{
+		sprintf(respuesta10,"10/%s ha aceptado",nameDestino);
+	}
+	else
+	{
+		sprintf(respuesta10,"10/%s no quiere jugar contigo",nameDestino);
+	}
+	//write(socketDestino,respuesta10,strlen(respuesta10));
+	sock_conn10 = socketDestino;
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 //Funci\ufff3n atender cliente
 void *AtenderCliente (void *socket)
 {
 	//llamamos a la ListaConectados
 	
-	miLista.num = 0;
+	//miLista.num = 0;
 	//Socket ListaConectados
 	//int sock_conn;
 	int sock_conn;
@@ -443,6 +494,8 @@ void *AtenderCliente (void *socket)
 	char respuesta[512];
 	int ret;
 	
+	char nameOrigen[20];
+	char nameDestino[20];
 	
 	//Creamos la conexion a MYSQL
 	conn = mysql_init(NULL);
@@ -483,8 +536,10 @@ void *AtenderCliente (void *socket)
 		//Recogemos el codigo indicado por cada peticion.
 		char *p = strtok( peticion, "/");
 		int codigo =  atoi (p);
-		int numForm;
+		//printf("%d\n",p);
+		//int numForm;
 		p = strtok( NULL, "/");
+		printf("%s\n",p);
 /*		numForm = DevuelveSocket(&miLista,usuario);*/
 		//numForm =  atoi (p);
 /*		p = strtok( NULL, "/");*/
@@ -540,8 +595,6 @@ void *AtenderCliente (void *socket)
 			//Notificamos a todos los clientes
 			pthread_mutex_unlock( &mutex);
 			notificar=1;
-			
-			
 		}
 		//PONER LISTA CONECTADOS
 		if (codigo == 6)
@@ -560,13 +613,78 @@ void *AtenderCliente (void *socket)
 		{
 			Desconectar(&miLista,usuario,respuesta);
 			pthread_mutex_lock( &mutex );
-			
-			//MostrarListaConectados(respuesta,conectado);
 			DameConectados(&miLista,conectado);
 			pthread_mutex_unlock( &mutex);
 			notificar=1;
-			//Notificamos a todos los clientes
-			//Notificacion(respuesta);
+		}
+		
+		//Invitacion
+		if (codigo == 9)
+		{
+			pthread_mutex_lock( &mutex );
+			
+			//MostrarListaConectados(respuesta,conectado);
+			Invitacion(&miLista,p,respuesta,nameOrigen,nameDestino,sock_conn);
+			//sprintf(conectado,"*/0/",nameOrigen,nameDestino);
+			pthread_mutex_unlock( &mutex);
+			
+			notificar=1;
+			//notificar=1;
+/*			int socketOrigen;*/
+/*			int socketDestino;*/
+/*			char nameOrigen[20];*/
+/*			char nameDestino[20];*/
+			//Encontramos el socket de origen y de destino (Invitacion)
+			//p = strtok (NULL,"/");
+/*			strcpy(nameOrigen,p);*/
+/*			socketOrigen = DevuelveSocket(&miLista,p);*/
+/*			p = strtok (NULL,"/");*/
+/*			strcpy(nameDestino,p);*/
+/*			socketDestino = DevuelveSocket(&miLista,p);*/
+			
+/*			printf("%d %d\n",socketDestino, socketOrigen);*/
+			//Devolveremos el codigo, la respuesta y el nombre del destino de la invitacion
+/*			sprintf(respuesta,"9/Quieres jugar con %s?/%s",nameOrigen,nameDestino);*/
+			
+/*			write(socketDestino,respuesta,strlen(respuesta));*/
+			
+			//"p" sera el mensaje (nombre usuario a quien queremos enviar la invitacion)
+			//CodigoInvitacion(&miLista,p,numForm,socketInvitado,respuesta);
+		}
+		
+		//Recepcion respuesta de la invitacion
+		if (codigo == 10)
+		{
+			pthread_mutex_lock( &mutex );
+			
+			//MostrarListaConectados(respuesta,conectado);
+			ConfirmacionInvitacion(&miLista,p,respuesta,nameDestino,sock_conn);
+			//sprintf(conectado,"*/0/",nameOrigen,nameDestino);
+			pthread_mutex_unlock( &mutex);
+			notificar = 1;
+/*			int socketOrigen;*/
+/*			int socketDestino;*/
+/*			char nameDestino[20];*/
+			//Encontramos el socket de origen y de destino (Invitacion)
+			//p = strtok (NULL,"/");
+			//strcpy(nameOrigen,p);
+			//socketOrigen = DevuelveSocket(&miLista,p);
+/*			p = strtok (NULL,"/");*/
+/*			strcpy(nameDestino,p);*/
+/*			socketDestino = DevuelveSocket(&miLista,p);*/
+/*			printf("%d %d\n",socketDestino, socketOrigen);*/
+/*			p=strtok(NULL,"/");*/
+/*			if (strcmp(p,"Yes") == 0)*/
+/*			{*/
+/*				sprintf(respuesta,"10/%s ha aceptado",nameDestino);*/
+/*			}*/
+/*			else*/
+/*			{*/
+/*				sprintf(respuesta,"10/%s no quiere jugar contigo",nameDestino);*/
+/*			}*/
+			
+			
+			/*write(socketDestino,respuesta,strlen(respuesta));*/
 		}
 		
 		if (codigo != 0)
@@ -590,18 +708,14 @@ void *AtenderCliente (void *socket)
 		{
 			char cabecera [512] = "6/";
 			strcat (cabecera, conectado);
-			printf ("Notificación: %s\n",cabecera);
+			printf ("Notificaciￃﾳn: %s\n",cabecera);
 			for (int j=0; j<miLista.num;j++)
 			{
 				write (miLista.conectados[j].socket,cabecera,strlen(cabecera));
 			}
 		}
 		notificar=0;
-/*		if (codigo == 9)*/
-/*		{*/
-			//"p" sera el mensaje (nombre usuario a quien queremos enviar la invitacion)
-/*			CodigoInvitacion(&miLista,p,numForm,socketInvitado,respuesta);*/
-/*		}*/
+		
 	}
 	// Se acabo el servicio para este cliente
 	close(sock_conn);
@@ -618,7 +732,7 @@ int main(int argc, char *argv[])
 	// Puerto Lucia : 50017
 	
 	//int puerto = 50017;
-	int puerto =9098;
+	int puerto =9087;
 	
 	// INICIALIZACION
 	// Abrimos el socket.
@@ -641,6 +755,7 @@ int main(int argc, char *argv[])
 	contador=0;
 	/*    int i;*/
 	/*    int sockets [100];*/
+	miLista.num = 0;
 	pthread_t  thread;
 	i=0;
 	

@@ -554,7 +554,7 @@
             this.holaToolStripMenuItem});
             this.menuStrip_usuario.Location = new System.Drawing.Point(0, 0);
             this.menuStrip_usuario.Name = "menuStrip_usuario";
-            this.menuStrip_usuario.Size = new System.Drawing.Size(1705, 27);
+            this.menuStrip_usuario.Size = new System.Drawing.Size(1705, 26);
             this.menuStrip_usuario.TabIndex = 31;
             this.menuStrip_usuario.Text = "menuStrip1";
             // 
@@ -564,8 +564,8 @@
             this.desconectarseDelServidorToolStripMenuItem,
             this.salirToolStripMenuItem});
             this.holaToolStripMenuItem.Name = "holaToolStripMenuItem";
-            this.holaToolStripMenuItem.Size = new System.Drawing.Size(51, 23);
-            this.holaToolStripMenuItem.Text = "Hola";
+            this.holaToolStripMenuItem.Size = new System.Drawing.Size(14, 22);
+            this.holaToolStripMenuItem.Click += new System.EventHandler(this.holaToolStripMenuItem_Click);
             // 
             // desconectarseDelServidorToolStripMenuItem
             // 

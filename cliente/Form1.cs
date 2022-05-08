@@ -19,7 +19,8 @@ namespace cliente
         // Puerto Marta : 50016
         // Puerto Lucia : 50017
         //int puerto = 50017;
-        int puerto = 9098;
+        int puerto = 9087;
+        string nameInvitado;
         public Parchís()
         {
             
@@ -138,13 +139,13 @@ namespace cliente
                             if (trozos[1] == "SI")
                             {
                             MessageBox.Show("¡Enhorabuena, ya estas registrado!");
-                            //Invoke(new Action(() =>
-                            //{
-                                
-                            //    iniciar_sesion.Visible = true;
-                            //    registro.Visible = false;
-                            //}));
-                            }
+                            Invoke(new Action(() =>
+                            {
+
+                                iniciar_sesion.Visible = true;
+                                registro.Visible = false;
+                            }));
+                        }
 
                             else
                             {
@@ -172,6 +173,7 @@ namespace cliente
                                 peticiones.Visible = true;
                                 title.Visible = false;
                                 menuStrip_usuario.Visible = true;
+                                holaToolStripMenuItem.Text = "Hola " + usuario_ini.Text;
                                 //menuStrip_usuario.("Hola %s",usuario_ini);
                             }
                         }));
@@ -206,6 +208,32 @@ namespace cliente
                             registro.Visible = false;
                             peticiones.Visible = false;
                         }));
+                        break;
+                    case 9:
+                        
+                        var result = MessageBox.Show(trozos[1],"Invitacion",MessageBoxButtons.YesNo);
+
+                        if (result == DialogResult.Yes)
+                        {
+                            // Enviamos al servidor el nombre del usuario       
+                            string respuestaInvitacion = "10/" + usuario_ini.Text + "/" + trozos[2] +"/Yes" ;
+                            // Enviamos al servidor el nombre tecleado
+                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(respuestaInvitacion);
+                            server.Send(msg);
+                        }
+                        if (result == DialogResult.No)
+                        {
+                            // Enviamos al servidor el nombre del usuario       
+                            string respuestaInvitacion = "10/" + usuario_ini.Text + "/" + trozos[2] +"/No";
+                            // Enviamos al servidor el nombre tecleado
+                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(respuestaInvitacion);
+                            server.Send(msg);
+                        }
+
+                        break;
+                    case 10:
+                        MessageBox.Show(trozos[1]);
+                        this.ListaConectadosDG.Rows[0].Cells[0].Selected = false;
                         break;
 
                 }
@@ -420,7 +448,7 @@ namespace cliente
         private void button1_Click(object sender, EventArgs e)
         {
             //Pedir numero de servicios realizados
-            string mensaje = "7/";
+            string mensaje = "7/" + usuario_ini.Text;
 
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
@@ -491,11 +519,17 @@ namespace cliente
 
         private void ListaConectadosDG_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            nameInvitado = ListaConectadosDG.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
             // Enviamos al servidor el nombre del usuario       
-            string mensaje = "9/" + usuario_ini.Text + "/" + ListaConectadosDG.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+            string mensaje = "9/" + usuario_ini.Text + "/" + nameInvitado ;
             // Enviamos al servidor el nombre tecleado
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(mensaje);
             server.Send(msg);
+        }
+
+        private void holaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
