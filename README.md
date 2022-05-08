@@ -12,7 +12,6 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
   La versión 2 implementa:
   
       · Concurrencia.
-      
       · Código excluyente.
       · Lista de conectados.
       · Mejoras de diseño.
@@ -24,18 +23,24 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
 		
 		
 "Versión 3"
+
   La versión 3 implementa:
+  
 	· Conexión a shiva y shiva 2.
 	· Mejora de diseño.
+	
 - Generada por Marta
 - Verificada por Lucía
 - Comunicada por Carla 
 
 
 "Versión 4"
+
   La versión 4 implementa:
+  
   	· Comunicacion entre sockets.
 	· Mejora de diseño.
+	
 - Generada por Lucía
 - Verificada por Carla
 - Comunicada por Marta 
