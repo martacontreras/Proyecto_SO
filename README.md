@@ -43,4 +43,4 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
 	
 - Generada por Lucía
 - Verificada por Carla
-- Comunicada por Marta 
+- Comunicada por Marta --> https://youtu.be/cC32NDOUwxw
