@@ -8,8 +8,11 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
 
 
 "Versión 2"
+
   La versión 2 implementa:
+  
       · Concurrencia.
+      
       · Código excluyente.
       · Lista de conectados.
       · Mejoras de diseño.
