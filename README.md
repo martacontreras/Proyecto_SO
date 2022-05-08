@@ -7,7 +7,7 @@ V2 Link video --> https://youtube.com/watch?v=nbn3KbpP5vU&feature=share
 V3 Link video --> https://youtu.be/-dK4KaXlmhY
 
 
-"Versión 2"
+*Versión 2*
 
   La versión 2 implementa:
   
@@ -22,7 +22,7 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
 		https://youtube.com/watch?v=MstILC2nfWo&feature=share
 		
 		
-"Versión 3"
+*Versión 3*
 
   La versión 3 implementa:
   
@@ -34,7 +34,7 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
 - Comunicada por Carla 
 
 
-"Versión 4"
+*Versión 4*
 
   La versión 4 implementa:
   
