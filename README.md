@@ -18,6 +18,8 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
       · Videos sobre los gráficos del juego:
       		https://youtu.be/17cEvXhBA6A 
 		https://youtube.com/watch?v=MstILC2nfWo&feature=share
+		
+		
 "Versión 3"
   La versión 3 implementa:
 	· Conexión a shiva y shiva 2.
@@ -25,6 +27,7 @@ V3 Link video --> https://youtu.be/-dK4KaXlmhY
 - Generada por Marta
 - Verificada por Lucía
 - Comunicada por Carla 
+
 
 "Versión 4"
   La versión 4 implementa:
